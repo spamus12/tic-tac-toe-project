@@ -97,3 +97,40 @@ function createPlayer(marker) {
     }
 
 }
+
+
+// Game manager factory module
+// The game manager governs turn order and who wins
+const gameManager = (function() {
+
+    /* Instance Variables */
+
+    // The player objects
+    let player1;
+    let player2;
+
+    // Keep track of turns
+    let turn;
+
+    // Remember if a game is in session
+    let inGame = false;
+
+
+    /* Functional Methods */
+
+    // Start a game
+    function startGame(players) {
+
+        // Set player objects first
+        // If there aren't 2 players passed to this function, return 1
+        if (players.length !== 2) {
+            console.log("ERROR: gameManager.startGame - Invalid number of players");
+            return 1;
+        }
+
+        player1 = players[0];
+        player2 = players[1];
+
+    }
+
+})();
