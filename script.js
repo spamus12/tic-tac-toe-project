@@ -54,10 +54,21 @@ const gameBoard = (function() {
     const getBoardString = () => {
         let boardString = "";
         for (let row = 0; row < board.length; row++) {
-            for (let column of board[row]) boardString += column;
+            for (let column of board[row]) boardString += column + ' ';
             boardString += '\n';
         }
         return boardString;
     }
 
+
+    // Object definition
+    return {
+        assignSpace,
+
+        getMarkerAt,
+        getBoardString
+    }
+
 })();
+
+
