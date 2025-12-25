@@ -32,7 +32,7 @@ const gameBoard = (function() {
 
         // If the marker is invalid, then abort
         if (marker !== 'x' && marker !== 'o') {
-            console.log(`Error: Invalid marker '${marker}'`);
+            console.log(`ERROR: Gameboard.assignSpace - Invalid marker '${marker}'`);
             return 2;
         }
 
@@ -63,8 +63,10 @@ const gameBoard = (function() {
 
     // Object definition
     return {
+        // Functional methods
         assignSpace,
 
+        // Getter/setter methods
         getMarkerAt,
         getBoardString
     }
@@ -72,3 +74,26 @@ const gameBoard = (function() {
 })();
 
 
+// Player factory
+function createPlayer(marker) {
+
+    // If the marker is invalid, return null
+    if (marker !== 'x' && marker !== 'o') {
+        console.log(`ERROR: createPlayer - Invalid marker '${marker}'`);
+        return null;
+    }
+
+    // Set the default player name
+    let name = "Player " + marker;
+
+    // Changes the player name
+    const setName = (newName) => name = newName;
+
+    // Object definition
+    return {
+        marker, name,
+
+        setName
+    }
+
+}
