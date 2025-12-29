@@ -36,6 +36,12 @@ const gameBoard = (function() {
             return 2;
         }
 
+        // If the target is out of scope, then abort
+        if (row > board.length || column > board[0].length) {
+            console.log(`ERROR: Gameboard.assignSpace - Invalid space (${row}, ${column})`);
+            return 3;
+        }
+
         // Assign the element in the array to the new marker
         board[row][column] = marker;
 
@@ -145,8 +151,15 @@ const gameManager = (function() {
         const currentPlayer = (turn % 2 === 1) ? player1 : player2;
         const currentMarker = currentPlayer.marker;
 
-        gameBoard.assignSpace(row, column, currentMarker);
-        turn++;
+        // If the assignment is successful, then increase the turn count
+        if (gameBoard.assignSpace(row, column, currentMarker) === 0) turn++;
+        else {
+            console.log(`Turn unsuccessful for player ${currentPlayer.name}`);
+            return;
+        }
+
+        // Check if either player wins
+        
 
     }
 
