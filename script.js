@@ -112,9 +112,6 @@ const gameManager = (function() {
     // Keep track of turns
     let turn;
 
-    // Remember if a game is in session
-    let inGame = false;
-
 
     /* Functional Methods */
 
@@ -123,7 +120,7 @@ const gameManager = (function() {
 
         // Set player objects first
         // If there aren't 2 players passed to this function, return 1
-        if (players.length !== 2) {
+        if (!Array.isArray(players) || players.length !== 2) {
             console.log("ERROR: gameManager.startGame - Invalid number of players");
             return 1;
         }
@@ -131,6 +128,68 @@ const gameManager = (function() {
         player1 = players[0];
         player2 = players[1];
 
+        // Set the turn to 1 and alternate between players
+        turn = 1;
+
+        // Play some test games
+        playRound();
+
+    }
+
+
+    // Have the current player make their play
+    function takeTurn(row, column) {
+
+        // Determine whose turn it is
+        // Odd turns are player 1 and evens are player 2
+        const currentPlayer = (turn % 2 === 1) ? player1 : player2;
+        const currentMarker = currentPlayer.marker;
+
+        gameBoard.assignSpace(row, column, currentMarker);
+        turn++;
+
+    }
+
+
+    // A function to simulate a game round
+    function playRound() {
+
+        // Example gameplay
+        takeTurn(0, 1);
+        takeTurn(1, 1);
+        takeTurn(0, 0);
+        takeTurn(0, 2);
+        takeTurn(1, 0);
+        takeTurn(2, 0);
+
+    }
+
+
+    /* Getter/Setter Methods */
+    const getPlayer1 = () => player1;
+    const getPlayer2 = () => player2;
+    const getTurn = () => turn;
+
+
+    // Object definition
+    return {
+        // Functional methods
+        startGame,
+
+        // Getter/Setter methods
+        getPlayer1,
+        getPlayer2,
+        getTurn
     }
 
 })();
+
+
+const player1 = createPlayer('x');
+player1.setName("Dom");
+
+const player2 = createPlayer('o');
+player2.setName("Daniel");
+
+gameManager.startGame([player1, player2]);
+console.log(gameBoard.getBoardString());
