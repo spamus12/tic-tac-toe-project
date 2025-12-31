@@ -226,6 +226,22 @@ const gameManager = (function() {
 
         }
 
+        // Finally, check diagonals
+        const topRow = gameBoard.getRow(0);
+        const middleRow = gameBoard.getRow(1);
+        const bottomRow = gameBoard.getRow(2);
+
+        // Since only 2 diagonals are possible, directly check for them
+        const topDiagonal = topRow[0] === middleRow[1] && topRow[0] === bottomRow[2];
+        const bottomDiagonal = bottomRow[0] === middleRow[1] && bottomRow[0] === topRow[2];
+
+        if (topDiagonal || bottomDiagonal) {
+            const finishText = (topDiagonal) ? `Line found in top diagonal.` : `Line found in bottom diagonal`;
+            console.log(finishText);
+            const winningPlayer = (topDiagonal) ? getPlayerWithMarker(topRow[0]) : getPlayerWithMarker(bottomRow(0));
+            return winningPlayer;
+        }
+
         console.log("No winning players detected.");
         return 1;
 
