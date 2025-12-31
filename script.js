@@ -22,6 +22,12 @@ const gameBoard = (function() {
 
         console.log(`Beginning assignment of marker '${marker}' at space (${row}, ${column})...`);
 
+        // If the target is out of scope, then abort
+        if (row > board.length || column > board[0].length || row < 0 || column < 0) {
+            console.log(`ERROR: Gameboard.assignSpace - Invalid space (${row}, ${column})`);
+            return 3;
+        }
+
         const targetMarker = getMarkerAt(row, column);
 
         // If the space is occupied, then abort
@@ -34,12 +40,6 @@ const gameBoard = (function() {
         if (marker !== 'x' && marker !== 'o') {
             console.log(`ERROR: Gameboard.assignSpace - Invalid marker '${marker}'`);
             return 2;
-        }
-
-        // If the target is out of scope, then abort
-        if (row > board.length || column > board[0].length) {
-            console.log(`ERROR: Gameboard.assignSpace - Invalid space (${row}, ${column})`);
-            return 3;
         }
 
         // Assign the element in the array to the new marker
@@ -207,6 +207,25 @@ const gameManager = (function() {
 
         }
 
+        // Secondly, check vertical lines
+        const columnLength = gameBoard.getColumn(0).length;
+        for (let col = 0; col < columnLength; col++) {
+
+            // Get the column as an array
+            const currentColumn = gameBoard.getColumn(col);
+
+            // Compare the first marker in the row with the rest of the markers in the column
+            // If the marker is blank, then skip this iteration
+            if (currentColumn[0] === '-') continue;
+
+            if (currentColumn[0] === currentColumn[1] && currentColumn[0] === currentColumn[2]) {
+                console.log(`Line found at column ${col}.`);
+                const winningPlayer = getPlayerWithMarker(currentColumn[0]);    
+                return winningPlayer;
+            }
+
+        }
+
         console.log("No winning players detected.");
         return 1;
 
@@ -217,13 +236,16 @@ const gameManager = (function() {
     function playRound() {
 
         // Example gameplay
+        takeTurn(0, 2);
         takeTurn(0, 1);
+
+        takeTurn(0, 1);
+        takeTurn(1, 0);
         takeTurn(1, 1);
 
-        takeTurn(0, 0);
+        takeTurn(-1, 1);
         takeTurn(1, 2);
-
-        takeTurn(0, 2);
+        takeTurn(2, 1);
 
     }
 
