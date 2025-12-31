@@ -20,7 +20,7 @@ const gameBoard = (function() {
     // If the operation is successful, returns a 0
     function assignSpace(row, column, marker) {
 
-        console.log(`Beginning assignment of marker '${marker}' at space (${row}, ${column}).`);
+        console.log(`Beginning assignment of marker '${marker}' at space (${row}, ${column})...`);
 
         const targetMarker = getMarkerAt(row, column);
 
@@ -56,6 +56,12 @@ const gameBoard = (function() {
     // Return the marker at the specified coordinate
     const getMarkerAt = (row, column) => board[row][column];
 
+    // Return the markers in a row as an array
+    const getRow = (row) => board[row];
+
+    // Return the markers in a column as an array
+    const getColumn = (column) => [ board[0][column], board[1][column], board[2][column] ];
+
     // Return the board in a 3x3 grid string
     const getBoardString = () => {
         let boardString = "";
@@ -74,6 +80,8 @@ const gameBoard = (function() {
 
         // Getter/setter methods
         getMarkerAt,
+        getRow,
+        getColumn,
         getBoardString
     }
 
@@ -95,11 +103,16 @@ function createPlayer(marker) {
     // Changes the player name
     const setName = (newName) => name = newName;
 
+    // Return player info
+    const getName = () => name;
+
     // Object definition
     return {
-        marker, name,
+        marker,
 
-        setName
+        setName,
+
+        getName
     }
 
 }
@@ -152,14 +165,50 @@ const gameManager = (function() {
         const currentMarker = currentPlayer.marker;
 
         // If the assignment is successful, then increase the turn count
+        // Otherwise, abort
         if (gameBoard.assignSpace(row, column, currentMarker) === 0) turn++;
         else {
-            console.log(`Turn unsuccessful for player ${currentPlayer.name}`);
+            console.log(`Turn unsuccessful for player ${currentPlayer.getName()}.`);
             return;
         }
 
-        // Check if either player wins
-        
+        // Check the board for lines and, if so, end the game
+        const boardState = checkBoard();
+        if (boardState !== 1) {
+            console.log(`Game over! ${boardState.getName()} wins!`);
+            return;
+        }
+
+    }
+
+
+    // Check the board for any lines and return the corresponding player
+    // If none, return 1
+    function checkBoard() {
+
+        console.log("Checking board...");
+
+        // First, check horizontal lines
+        const rowLength = gameBoard.getRow(0).length;
+        for (let row = 0; row < rowLength; row++) {
+
+            // Get the row as an array
+            const currentRow = gameBoard.getRow(row);
+
+            // Compare the first marker in the row with the rest of the markers in the row
+            // If the marker is blank, then skip this iteration
+            if (currentRow[0] === '-') continue;
+
+            if (currentRow[0] === currentRow[1] && currentRow[0] === currentRow[2]) {
+                console.log(`Line found at row ${row}.`);
+                const winningPlayer = getPlayerWithMarker(currentRow[0]);    
+                return winningPlayer;
+            }
+
+        }
+
+        console.log("No winning players detected.");
+        return 1;
 
     }
 
@@ -170,10 +219,11 @@ const gameManager = (function() {
         // Example gameplay
         takeTurn(0, 1);
         takeTurn(1, 1);
+
         takeTurn(0, 0);
+        takeTurn(1, 2);
+
         takeTurn(0, 2);
-        takeTurn(1, 0);
-        takeTurn(2, 0);
 
     }
 
@@ -182,6 +232,11 @@ const gameManager = (function() {
     const getPlayer1 = () => player1;
     const getPlayer2 = () => player2;
     const getTurn = () => turn;
+    const getPlayerWithMarker = (marker) => {
+        if (player1.marker === marker) return player1;
+        else if (player2.marker === marker) return player2;
+        else return 1;
+    };
 
 
     // Object definition
@@ -192,7 +247,8 @@ const gameManager = (function() {
         // Getter/Setter methods
         getPlayer1,
         getPlayer2,
-        getTurn
+        getTurn,
+        getPlayerWithMarker
     }
 
 })();
