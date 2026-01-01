@@ -63,7 +63,7 @@
 }
 
 
-/* Main section */
+/* Main Section */
 body {
     margin: 0px;
     background-color: var(--body-background-color);
@@ -73,6 +73,18 @@ body {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
 }
+
+
+/* Left Section */
+.main .left {
+    padding: 3rem;
+    padding-top: 8rem;
+
+    color: var(--main-font-color);
+}
+
+
+/* Middle Section */
 
 .main .middle {
     position: relative;
