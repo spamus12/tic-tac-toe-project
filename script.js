@@ -150,9 +150,6 @@ const gameManager = (function() {
         // Set the turn to 1 and alternate between players
         turn = 1;
 
-        // Play some test games
-        playRound();
-
     }
 
 
@@ -290,13 +287,3 @@ const gameManager = (function() {
     }
 
 })();
-
-
-const player1 = createPlayer('x');
-player1.setName("Dom");
-
-const player2 = createPlayer('o');
-player2.setName("Daniel");
-
-gameManager.startGame([player1, player2]);
-console.log(gameBoard.getBoardString());
