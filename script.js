@@ -24,7 +24,7 @@ const gameBoard = (function() {
 
         // If the target is out of scope, then abort
         if (row > board.length || column > board[0].length || row < 0 || column < 0) {
-            console.log(`ERROR: Gameboard.assignSpace - Invalid space (${row}, ${column})`);
+            console.log(`ERROR: gameBoard.assignSpace - Invalid space (${row}, ${column})`);
             return 3;
         }
 
@@ -38,12 +38,17 @@ const gameBoard = (function() {
 
         // If the marker is invalid, then abort
         if (marker !== 'x' && marker !== 'o') {
-            console.log(`ERROR: Gameboard.assignSpace - Invalid marker '${marker}'`);
+            console.log(`ERROR: gameBoard.assignSpace - Invalid marker '${marker}'`);
             return 2;
         }
 
         // Assign the element in the array to the new marker
         board[row][column] = marker;
+        
+        // Change the HTML element to match the marker
+        const space = document.getElementById(row + "" + column);
+        space.classList.add(marker);
+        space.textContent = marker;
 
         console.log("Assignment complete.");
         return 0;
@@ -134,8 +139,10 @@ const gameManager = (function() {
 
     /* Functional Methods */
 
-    // Start a game
+    // Start the game
     function startGame(players) {
+
+        console.log("Starting game.");
 
         // Set player objects first
         // If there aren't 2 players passed to this function, return 1
@@ -145,11 +152,12 @@ const gameManager = (function() {
         }
 
         player1 = players[0];
+        console.log("Player 1: " + player1.getName());
         player2 = players[1];
+        console.log("Player 2: " + player2.getName());
 
         // Set the turn to 1 and alternate between players
         turn = 1;
-
     }
 
 
@@ -229,36 +237,18 @@ const gameManager = (function() {
         const bottomRow = gameBoard.getRow(2);
 
         // Since only 2 diagonals are possible, directly check for them
-        const topDiagonal = topRow[0] === middleRow[1] && topRow[0] === bottomRow[2];
-        const bottomDiagonal = bottomRow[0] === middleRow[1] && bottomRow[0] === topRow[2];
+        const topDiagonal = topRow[0] !== '-' && topRow[0] === middleRow[1] && topRow[0] === bottomRow[2];
+        const bottomDiagonal = bottomRow[0] !== '-' && bottomRow[0] === middleRow[1] && bottomRow[0] === topRow[2];
 
         if (topDiagonal || bottomDiagonal) {
             const finishText = (topDiagonal) ? `Line found in top diagonal.` : `Line found in bottom diagonal`;
             console.log(finishText);
-            const winningPlayer = (topDiagonal) ? getPlayerWithMarker(topRow[0]) : getPlayerWithMarker(bottomRow(0));
+            const winningPlayer = (topDiagonal) ? getPlayerWithMarker(topRow[0]) : getPlayerWithMarker(bottomRow[0]);
             return winningPlayer;
         }
 
         console.log("No winning players detected.");
         return 1;
-
-    }
-
-
-    // A function to simulate a game round
-    function playRound() {
-
-        // Example gameplay
-        takeTurn(0, 2);
-        takeTurn(0, 1);
-
-        takeTurn(0, 1);
-        takeTurn(1, 0);
-        takeTurn(1, 1);
-
-        takeTurn(-1, 1);
-        takeTurn(1, 2);
-        takeTurn(2, 1);
 
     }
 
@@ -278,6 +268,7 @@ const gameManager = (function() {
     return {
         // Functional methods
         startGame,
+        takeTurn,
 
         // Getter/Setter methods
         getPlayer1,
@@ -287,3 +278,30 @@ const gameManager = (function() {
     }
 
 })();
+
+
+// Bind the form submission to process the
+// submitted names and start the game
+const playerForm = document.getElementById("player-form");
+playerForm.addEventListener("submit", function (event) {
+
+    // Prevent default behavior
+    event.preventDefault();
+
+    // Assign values
+    const player1name = document.getElementById("player1-name").value;
+    const player2name = document.getElementById("player2-name").value;
+
+    // Create players
+    // Player 1 is 'x' and player 2 is 'o'
+    const player1 = createPlayer('x');
+    if (player1name !== "") player1.setName(player1name);
+    const player2 = createPlayer('o');
+    if (player2name !== "") player2.setName(player2name);
+
+    // Finally, remove the form, remove the overlay,
+    // and initialize the game
+    playerForm.remove();
+    document.getElementById("gameboard-overlay").remove();
+    gameManager.startGame([player1, player2]);
+});

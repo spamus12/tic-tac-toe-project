@@ -23,7 +23,7 @@
 
         <div class="left">
 
-            <form>
+            <form id="player-form">
 
                 <div class="portion">
                     <label for="player1-name">Player 1 Name:</label>
@@ -45,19 +45,19 @@
 
             <div class="gameboard">
 
-                <button class="board-space" id="space1"></button>
-                <button class="board-space" id="space2"></button>
-                <button class="board-space" id="space3"></button>
-                <button class="board-space" id="space4"></button>
-                <button class="board-space" id="space5"></button>
-                <button class="board-space" id="space6"></button>
-                <button class="board-space" id="space7"></button>
-                <button class="board-space" id="space8"></button>
-                <button class="board-space" id="space9"></button>
+                <button class="board-space" id="00" onclick="gameManager.takeTurn(0, 0)"></button>
+                <button class="board-space" id="01" onclick="gameManager.takeTurn(0, 1)"></button>
+                <button class="board-space" id="02" onclick="gameManager.takeTurn(0, 2)"></button>
+                <button class="board-space" id="10" onclick="gameManager.takeTurn(1, 0)"></button>
+                <button class="board-space" id="11" onclick="gameManager.takeTurn(1, 1)"></button>
+                <button class="board-space" id="12" onclick="gameManager.takeTurn(1, 2)"></button>
+                <button class="board-space" id="20" onclick="gameManager.takeTurn(2, 0)"></button>
+                <button class="board-space" id="21" onclick="gameManager.takeTurn(2, 1)"></button>
+                <button class="board-space" id="22" onclick="gameManager.takeTurn(2, 2)"></button>
 
             </div>
 
-            <div class="gameboard-overlay">
+            <div class="gameboard-overlay" id="gameboard-overlay">
                 <p class="overlay-text">Waiting for game to start...</p>
             </div>
 

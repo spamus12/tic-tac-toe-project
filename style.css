@@ -114,3 +114,15 @@ body {
     font-size: 22px;
     font-weight: 800;
 }
+
+.gameboard .board-space {
+    font-size: 8cqw;
+}
+
+.gameboard .x {
+    color: red;
+}
+
+.gameboard .o {
+    color: blue;
+}
