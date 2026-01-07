@@ -71,6 +71,7 @@ const gameBoard = (function() {
         const boardSpaces = document.querySelectorAll(".board-space");
         for (const space of boardSpaces) {
             space.textContent = "";
+            space.classList = "board-space";
         }
 
     }

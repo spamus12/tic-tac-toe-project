@@ -115,7 +115,8 @@ body {
     gap: 12px;
 }
 
-#player-form button {
+#player-form button,
+.gameover-overlay button {
     background-color: var(--primary-color);
     border: none;
     border-radius: 12px;
@@ -129,6 +130,10 @@ body {
     padding-bottom: 5px;
 }
 
+
+.gameover-overlay {
+    flex-direction: column;
+}
 
 .gameboard .board-space {
     font-size: 8cqw;
