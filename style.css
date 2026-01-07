@@ -13,7 +13,7 @@
 }
 
 :root {
-    --header-color: #407be3;
+    --primary-color: #407be3;
     --header-font-color: white;
 
     --body-background-color: #8493ad;
@@ -24,7 +24,7 @@
 
 /* Header */
 .header {
-    background-color: var(--header-color);
+    background-color: var(--primary-color);
     max-width: 100vw;
     height: 5rem;
 
@@ -75,16 +75,7 @@ body {
 }
 
 
-/* Left Section */
-.main .left {
-    padding: 3rem;
-    padding-top: 8rem;
-
-    color: var(--main-font-color);
-}
-
-
-/* Middle Section */
+/* Main Section */
 
 .main .middle {
     position: relative;
@@ -114,6 +105,29 @@ body {
     font-size: 22px;
     font-weight: 800;
 }
+
+
+#player-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+}
+
+#player-form button {
+    background-color: var(--primary-color);
+    border: none;
+    border-radius: 12px;
+
+    font-size: 18px;
+    font-weight: 650;
+    color: white;
+
+    padding: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
 
 .gameboard .board-space {
     font-size: 8cqw;
