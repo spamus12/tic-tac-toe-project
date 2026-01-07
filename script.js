@@ -136,6 +136,9 @@ const gameManager = (function() {
     // Keep track of turns
     let turn;
 
+    // Track if the game is over or not
+    let gameOver;
+
 
     /* Functional Methods */
 
@@ -143,6 +146,7 @@ const gameManager = (function() {
     function startGame(players) {
 
         console.log("Starting game.");
+        gameOver = false;
 
         // Set player objects first
         // If there aren't 2 players passed to this function, return 1
@@ -181,6 +185,8 @@ const gameManager = (function() {
         const boardState = checkBoard();
         if (boardState !== 1) {
             console.log(`Game over! ${boardState.getName()} wins!`);
+            gameOver = true;
+            displayGameOver();
             return;
         }
 
@@ -301,7 +307,18 @@ playerForm.addEventListener("submit", function (event) {
 
     // Finally, remove the form, remove the overlay,
     // and initialize the game
-    playerForm.remove();
-    document.getElementById("gameboard-overlay").remove();
+    playerForm.classList.toggle("hidden");
+    document.getElementById("gameboard-overlay").classList.toggle("hidden");
     gameManager.startGame([player1, player2]);
 });
+
+
+// Hide the game over screen by default
+const gameOverScreen = document.getElementById("gameover-overlay");
+gameOverScreen.classList.toggle("hidden");
+
+// Display the game over screen
+function displayGameOver() {
+    gameOverScreen.classList.toggle("hidden");
+}
+

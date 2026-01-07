@@ -141,3 +141,8 @@ body {
 .gameboard .o {
     color: blue;
 }
+
+
+.hidden {
+    display: none;
+}
