@@ -213,6 +213,13 @@ const gameManager = (function() {
             return;
         }
 
+        // Also check if it's a tie
+        if (boardState === 1) {
+            console.log("It's a tie!");
+            displayGameOver(false);
+            return;
+        }
+
     }
 
 
@@ -278,7 +285,6 @@ const gameManager = (function() {
 
         // Finally, check for a tie
         if (turn > 9) {
-            console.log("It's a tie!");
             return 1;
         }
 
@@ -354,11 +360,13 @@ const gameOverScreen = document.getElementById("gameover-overlay");
 gameOverScreen.classList.toggle("hidden");
 
 // Display the game over screen
+// Passing false to this function signifies a tie
 function displayGameOver(player) {
 
-    // First, display the winning the player
+    // Display the winning the player,
+    // or display a tie
     const winningPlayer = gameOverScreen.querySelector(".winning-player");
-    winningPlayer.textContent = player.getName() + " wins!";
+    winningPlayer.textContent = (player !== false) ? player.getName() + " wins!" : "It's a tie!";
 
     gameOverScreen.classList.toggle("hidden");
 }
