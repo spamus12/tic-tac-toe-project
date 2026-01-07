@@ -59,22 +59,29 @@ const gameBoard = (function() {
     function resetBoard() {
 
         // Reset the board array
-        for (let row = 0; row < gameBoard.length; row++) {
-            for (let col = 0; col < gameBoard[row].length; col++) {
-                gameBoard[row][col] = '-';
+        const b = getBoardArray();
+        for (let row = 0; row < b.length; row++) {
+            for (let col = 0; col < b[row].length; col++) {
+                b[row][col] = '-';
             }
         }
+        console.log(getBoardString());
 
         // Reset the document elements
         const boardSpaces = document.querySelectorAll(".board-space");
         for (const space of boardSpaces) {
-            space.textContent = '-';
+            space.textContent = "";
         }
 
     }
 
 
     /* Getter/setter methods */
+
+    // Return the main board array,
+    // only for use in this object
+    const getBoardArray = () => board;
+
 
     // Return the marker at the specified coordinate
     const getMarkerAt = (row, column) => board[row][column];
@@ -155,9 +162,6 @@ const gameManager = (function() {
     // Keep track of turns
     let turn;
 
-    // Track if the game is over or not
-    let gameOver;
-
 
     /* Functional Methods */
 
@@ -204,8 +208,7 @@ const gameManager = (function() {
         const boardState = checkBoard();
         if (boardState !== 1) {
             console.log(`Game over! ${boardState.getName()} wins!`);
-            gameOver = true;
-            displayGameOver();
+            displayGameOver(boardState);
             return;
         }
 
@@ -278,6 +281,12 @@ const gameManager = (function() {
     }
 
 
+    // Reset all variables
+    function resetGame() {
+        player1, player2, turn = undefined;
+    }
+
+
     /* Getter/Setter Methods */
     const getPlayer1 = () => player1;
     const getPlayer2 = () => player2;
@@ -294,6 +303,7 @@ const gameManager = (function() {
         // Functional methods
         startGame,
         takeTurn,
+        resetGame,
 
         // Getter/Setter methods
         getPlayer1,
@@ -337,7 +347,25 @@ const gameOverScreen = document.getElementById("gameover-overlay");
 gameOverScreen.classList.toggle("hidden");
 
 // Display the game over screen
-function displayGameOver() {
+function displayGameOver(player) {
+
+    // First, display the winning the player
+    const winningPlayer = gameOverScreen.querySelector(".winning-player");
+    winningPlayer.textContent = player.getName() + " wins!";
+
     gameOverScreen.classList.toggle("hidden");
+}
+
+
+// Reset the game
+function resetGame() {
+
+    console.log("Resetting game.");
+    gameBoard.resetBoard();
+    gameManager.resetGame();
+    playerForm.classList.toggle("hidden");
+    document.getElementById("gameboard-overlay").classList.toggle("hidden");
+    gameOverScreen.classList.toggle("hidden");
+
 }
 
