@@ -207,7 +207,7 @@ const gameManager = (function() {
 
         // Check the board for lines and, if so, end the game
         const boardState = checkBoard();
-        if (boardState !== 1) {
+        if (boardState !== 1 && boardState !== 2) {
             console.log(`Game over! ${boardState.getName()} wins!`);
             displayGameOver(boardState);
             return;
@@ -260,7 +260,7 @@ const gameManager = (function() {
 
         }
 
-        // Finally, check diagonals
+        // Third, check diagonals
         const topRow = gameBoard.getRow(0);
         const middleRow = gameBoard.getRow(1);
         const bottomRow = gameBoard.getRow(2);
@@ -276,8 +276,14 @@ const gameManager = (function() {
             return winningPlayer;
         }
 
+        // Finally, check for a tie
+        if (turn > 9) {
+            console.log("It's a tie!");
+            return 1;
+        }
+
         console.log("No winning players detected.");
-        return 1;
+        return 2;
 
     }
 
