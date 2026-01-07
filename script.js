@@ -55,6 +55,24 @@ const gameBoard = (function() {
 
     }
 
+    // Reset the board to its default state
+    function resetBoard() {
+
+        // Reset the board array
+        for (let row = 0; row < gameBoard.length; row++) {
+            for (let col = 0; col < gameBoard[row].length; col++) {
+                gameBoard[row][col] = '-';
+            }
+        }
+
+        // Reset the document elements
+        const boardSpaces = document.querySelectorAll(".board-space");
+        for (const space of boardSpaces) {
+            space.textContent = '-';
+        }
+
+    }
+
 
     /* Getter/setter methods */
 
@@ -82,6 +100,7 @@ const gameBoard = (function() {
     return {
         // Functional methods
         assignSpace,
+        resetBoard,
 
         // Getter/setter methods
         getMarkerAt,
